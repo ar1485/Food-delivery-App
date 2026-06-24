@@ -1,0 +1,148 @@
+.cart {
+    margin-top: 100px;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Crucial step: Headers aur rows ko exactly 6 equal components mein split kijiye */
+.cart-items-title {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr 0.5fr;
+    align-items: center;
+    color: gray;
+    font-size: max(1vw, 12px);
+}
+
+.cart-items-item {
+    margin: 10px 0px;
+    color: black;
+}
+
+.cart-items-item img {
+    width: 50px;
+    border-radius: 4px;
+}
+
+.cross {
+    cursor: pointer;
+    color: #ff4321;
+    font-weight: 500;
+}
+
+/* Bottom Split Container */
+.cart-bottom {
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+    gap: max(12vw, 20px);
+}
+
+.cart-total {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cart-total h2 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.cart-total-details {
+    display: flex;
+    justify-content: space-between;
+    color: #555;
+    font-size: 14px;
+}
+
+.cart-total button {
+    border: none;
+    color: white;
+    background-color: #ff4321; /* Tomato Red Header */
+    width: max(15vw, 200px);
+    padding: 12px 0px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.cart-promocode {
+    flex: 1;
+}
+
+.cart-promocode p {
+    color: #555;
+    font-size: 14px;
+}
+
+.cart-promocode-input {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #eaeaea;
+    border-radius: 4px;
+}
+
+.cart-promocode-input input {
+    background: transparent;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+}
+
+.cart-promocode-input button {
+    width: max(10vw, 150px);
+    padding: 12px 5px;
+    background-color: black;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Counter UI Layer */
+.cart-quantity-counter {
+    display: flex;
+    align-items: center;
+    background-color: #f4f6f8;
+    border-radius: 50px;
+    padding: 2px 6px;
+    gap: 8px;
+    width: max-content;
+}
+
+.counter-btn {
+    border: none;
+    background: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.counter-btn.minus { color: #ff4321; }
+.counter-btn.plus { background-color: #ff4321; color: white; }
+
+.counter-value {
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 12px;
+    text-align: center;
+}
+
+/* Responsive adjustment for phones/tablets */
+@media (max-width: 750px) {
+    .cart-bottom {
+        flex-direction: column-reverse;
+    }
+    .cart-promocode-input button {
+        width: 100px;
+    }
+}

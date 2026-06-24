@@ -1,0 +1,67 @@
+.order-list {
+    margin-top: 20px;
+}
+
+.order-item {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
+    align-items: start;
+    gap: 30px;
+    border: 1px solid #ff4321; /* Tomato custom boundary lines */
+    padding: 20px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #454545;
+    border-radius: 4px;
+    background: white;
+}
+
+.order-item img {
+    width: 40px;
+}
+
+.order-item-food, .order-item-name {
+    font-weight: 600;
+    color: #262626;
+}
+
+.order-item-address {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.order-item-phone {
+    font-size: 13px;
+    font-family: monospace;
+}
+
+.order-price {
+    font-weight: 600;
+    color: #ff4321;
+}
+
+/* Custom dropdown filter menu */
+.order-item select {
+    background-color: #ffe8e4;
+    border: 1px solid #ff4321;
+    color: #ff4321;
+    padding: 10px;
+    outline: none;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+@media (max-width: 1000px) {
+    .order-item {
+        grid-template-columns: 1fr 2fr 1fr;
+        row-gap: 15px;
+        font-size: 12px;
+    }
+    .order-item select {
+        padding: 5px;
+        font-size: 12px;
+    }
+}

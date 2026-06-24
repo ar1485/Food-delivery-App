@@ -1,0 +1,179 @@
+.place-order {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: max(4vw, 40px);
+    margin-top: 100px;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* --- Left Form Box Container --- */
+.place-order-left {
+    width: 100%;
+    max-width: 550px;
+}
+
+/* 🔴 NEW: Saved Addresses Selector Layout */
+.saved-addresses-selector {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.saved-addresses-selector h3 {
+    font-size: 18px;
+    color: #323232;
+    margin-bottom: 15px;
+}
+
+.address-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.addr-option-card {
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    cursor: pointer;
+    background: white;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.addr-option-card h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #323232;
+}
+
+.addr-option-card p {
+    margin: 0;
+    font-size: 11px;
+    color: #64748b;
+}
+
+.addr-option-card:hover {
+    border-color: tomato;
+    background: #fff2ef;
+    transform: translateY(-2px);
+}
+
+.place-order-left .title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #323232;
+}
+
+/* Clean Form Input Styles */
+.place-order-left input {
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.place-order-left input:focus {
+    border-color: tomato;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.15);
+}
+
+/* Multi-fields Layout for Split Inputs */
+.place-order-left .multi-fields {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.place-order-left .multi-fields input {
+    flex: 1;
+}
+
+/* --- Right Checkout Cart Totals Box --- */
+.place-order-right {
+    width: 100%;
+    max-width: 450px;
+    background-color: #fcfcfc;
+    border: 1px solid #f0f0f0;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.place-order-right .cart-total {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cart-total-details {
+    display: flex;
+    justify-content: space-between;
+    color: #555;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.place-order-right hr {
+    border: none;
+    height: 1px;
+    background-color: #e2e8f0;
+}
+
+/* --- Payment Options --- */
+.payment-method-selection {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+.payment-option:hover {
+    border-color: tomato;
+}
+
+.payment-option input[type="radio"] {
+    accent-color: tomato;
+}
+
+/* Primary Button */
+.place-order-right .cart-total button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 14px;
+    background-color: tomato;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@media (max-width: 850px) {
+    .place-order {
+        flex-direction: column;
+        margin-top: 50px;
+    }
+}
