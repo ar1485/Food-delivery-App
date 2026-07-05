@@ -1,9 +1,10 @@
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 
-//  Placing User Order
+// Placing User Order
 const placeOrder = async (req, res) => {
-    const frontend_url = "http://localhost:5174"; 
+    const frontend_url = "http://localhost:5173"; 
+    
     try {
         const newOrder = new orderModel({
             userId: req.body.userId,
@@ -22,8 +23,8 @@ const placeOrder = async (req, res) => {
             return res.json({ success: true, message: "Order placed via COD!", isCOD: true });
         }
 
-        const mockSessionUrl = `${frontend_url}/verify?success=true&orderId=${newOrder._id}`;
-        return res.json({ success: true, session_url: mockSessionUrl });
+        const session_url = `${frontend_url}/verify?success=true&orderId=${newOrder._id}`;
+        return res.json({ success: true, session_url: session_url });
     } catch (error) {
         console.log(error);
         return res.json({ success: false, message: "Error placing order" });
@@ -37,8 +38,11 @@ const verifyOrder = async (req, res) => {
         if (success === "true" || success === true) {
             await orderModel.findByIdAndUpdate(orderId, { payment: true });
             const order = await orderModel.findById(orderId);
-            await userModel.findByIdAndUpdate(order.userId, { cartData: {} });
-            return res.json({ success: true, message: "Paid successfully" });
+            if (order) {
+                await userModel.findByIdAndUpdate(order.userId, { cartData: {} });
+                return res.json({ success: true, message: "Paid successfully" });
+            }
+            return res.json({ success: false, message: "Order not found" });
         } else {
             await orderModel.findByIdAndDelete(orderId);
             return res.json({ success: false, message: "Payment failed" });

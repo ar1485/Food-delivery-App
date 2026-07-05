@@ -5,7 +5,7 @@ import axios from 'axios';
 import './Profile.css';
 
 const Profile = () => {
-    const { token, setToken, setCartItems, addressesList, removeAddress, url, food_list, favorites, toggleFavorite } = useContext(StoreContext);
+    const { token, setToken, setCartItems, addressesList, removeAddress, saveAddress, url, food_list, favorites, toggleFavorite } = useContext(StoreContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,6 +16,7 @@ const Profile = () => {
 
     const [activeTab, setActiveTab] = useState('account');
     const [isEditing, setIsEditing] = useState(false);
+    const [showAddressModal, setShowAddressModal] = useState(false);
     const [userData, setUserData] = useState({
         firstName: 'Amrit',
         lastName: 'Raj',
@@ -24,9 +25,14 @@ const Profile = () => {
 
     const [ordersData, setOrdersData] = useState([]);
     const [showTrackModal, setShowTrackModal] = useState(false);
+    const [newAddr, setNewAddr] = useState({ 
+        firstName: "", lastName: "", email: "", 
+        street: "", city: "", state: "", 
+        zipcode: "", country: "", phone: "" 
+    });
+
     const [selectedOrder, setSelectedOrder] = useState(null);
-    
-    // --- Settings State ---
+
     const [userSettings, setUserSettings] = useState({
         theme: 'light',
         language: 'English',
@@ -67,6 +73,11 @@ const Profile = () => {
         e.preventDefault();
         alert("✅ Profile Updated Successfully!");
         setIsEditing(false);
+    };
+
+    const handleAddressChange = (e) => {
+        const { name, value } = e.target;
+        setNewAddr(prev => ({ ...prev, [name]: value }));
     };
 
     useEffect(() => {
@@ -251,7 +262,7 @@ const Profile = () => {
                         )}
 
                         <div className="mt-30">
-                            <button className="btn-add-address" onClick={() => alert("Open Add New Address Gateway...")}>
+                            <button className="btn-add-address" onClick={() => setShowAddressModal(true)}>
                                 ADD NEW ADDRESS
                             </button>
                         </div>
@@ -283,7 +294,6 @@ const Profile = () => {
                 <div className="dashboard-tab-panel-view bg-light-gray" style={{ padding: '30px', borderRadius: '16px', minHeight: '100%' }}>
                     <h2 className="section-title">Settings</h2>
 
-                    {/* Appearance & Language Section */}
                     <div className="settings-section">
                         <h4 className="subsection-title">App Preferences</h4>
                         <div className="settings-card">
@@ -292,7 +302,7 @@ const Profile = () => {
                                     <h4>Appearance</h4>
                                     <p>Choose your preferred theme</p>
                                 </div>
-                                <select className="settings-select" value={userSettings.theme} onChange={(e) => setUserSettings({...userSettings, theme: e.target.value})}>
+                                <select className="settings-select" value={userSettings.theme} onChange={(e) => setUserSettings({ ...userSettings, theme: e.target.value })}>
                                     <option value="light">Light Mode</option>
                                     <option value="dark">Dark Mode</option>
                                     <option value="system">System Default</option>
@@ -304,7 +314,7 @@ const Profile = () => {
                                     <h4>Language</h4>
                                     <p>Select your primary language</p>
                                 </div>
-                                <select className="settings-select" value={userSettings.language} onChange={(e) => setUserSettings({...userSettings, language: e.target.value})}>
+                                <select className="settings-select" value={userSettings.language} onChange={(e) => setUserSettings({ ...userSettings, language: e.target.value })}>
                                     <option value="English">English</option>
                                     <option value="हिंदी">हिंदी</option>
                                     <option value="தமிழ்">தமிழ்</option>
@@ -316,11 +326,9 @@ const Profile = () => {
                         </div>
                     </div>
 
-                    {/* Notifications Section */}
                     <div className="settings-section mt-30">
                         <h4 className="subsection-title">Notifications</h4>
                         <div className="settings-card">
-                            {/* Order Status */}
                             <div className="setting-row">
                                 <div className="setting-text">
                                     <h4>Order Status</h4>
@@ -332,7 +340,6 @@ const Profile = () => {
                                 </label>
                             </div>
                             <div className="dashed-divider"></div>
-                            {/* Promotions */}
                             <div className="setting-row">
                                 <div className="setting-text">
                                     <h4>Promotions & Offers</h4>
@@ -344,7 +351,6 @@ const Profile = () => {
                                 </label>
                             </div>
                             <div className="dashed-divider"></div>
-                            {/* SMS, Email, Push */}
                             <div className="setting-row">
                                 <div className="setting-text">
                                     <h4>Push Notifications</h4>
@@ -369,7 +375,6 @@ const Profile = () => {
                         </div>
                     </div>
 
-                    {/* Food Preferences Section */}
                     <div className="settings-section mt-30">
                         <h4 className="subsection-title">Food Preferences</h4>
                         <div className="settings-card">
@@ -378,7 +383,7 @@ const Profile = () => {
                                     <h4>Dietary Preference</h4>
                                     <p>Tailor your restaurant recommendations</p>
                                 </div>
-                                <select className="settings-select" value={userSettings.dietary} onChange={(e) => setUserSettings({...userSettings, dietary: e.target.value})}>
+                                <select className="settings-select" value={userSettings.dietary} onChange={(e) => setUserSettings({ ...userSettings, dietary: e.target.value })}>
                                     <option value="Any">No Preference</option>
                                     <option value="Vegetarian">Vegetarian</option>
                                     <option value="Vegan">Vegan</option>
@@ -390,15 +395,68 @@ const Profile = () => {
                                 <div className="setting-text" style={{ width: '100%' }}>
                                     <h4>Allergies</h4>
                                     <p>List any food allergies (e.g., Peanuts, Dairy)</p>
-                                    <input type="text" className="settings-input" placeholder="Type allergies here..." value={userSettings.allergies} onChange={(e) => setUserSettings({...userSettings, allergies: e.target.value})} />
+                                    <input type="text" className="settings-input" placeholder="Type allergies here..." value={userSettings.allergies} onChange={(e) => setUserSettings({ ...userSettings, allergies: e.target.value })} />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             );
-            
-            case 'help': return <div className="dashboard-tab-panel-view modern-card-panel"><h2>Help & Support</h2><p>Contact 24/7 Support...</p></div>;
+
+            case 'help': return (
+                <div className="dashboard-tab-panel-view modern-card-panel">
+                    <h2 className="section-title">Help & Support</h2>
+                    <p className="support-subtitle" style={{ color: '#515154', marginBottom: '25px' }}>
+                        How can we help you today, {userData.firstName}?
+                    </p>
+
+                    <div className="support-contact-grid">
+                        <div className="support-card" onClick={() => alert("Starting Live Chat with our agent...")}>
+                            <div className="support-icon">💬</div>
+                            <h4>Live Chat</h4>
+                            <p>Usually replies in 2 mins</p>
+                        </div>
+                        <div className="support-card" onClick={() => window.location.href = 'mailto:support@arfood.com'}>
+                            <div className="support-icon">✉️</div>
+                            <h4>Email Us</h4>
+                            <p>support@arfood.com</p>
+                        </div>
+                        <div className="support-card" onClick={() => window.location.href = 'tel:+919876543201'}>
+                            <div className="support-icon">📞</div>
+                            <h4>Call Us</h4>
+                            <p>+91 9876543201</p>
+                        </div>
+                    </div>
+
+                    <div className="settings-section mt-30">
+                        <h4 className="subsection-title">Frequently Asked Questions</h4>
+                        <div className="settings-card faq-list">
+                            <div className="faq-item">
+                                <h5>I want to cancel my order.</h5>
+                                <p>Orders can only be canceled within 60 seconds of placing them. Please go to 'Past Orders' and tap cancel.</p>
+                            </div>
+                            <div className="dashed-divider"></div>
+
+                            <div className="faq-item">
+                                <h5>My delivery is delayed. What should I do?</h5>
+                                <p>We apologize for the delay! Traffic or weather can sometimes slow us down. You can track your rider in real-time or contact them directly.</p>
+                            </div>
+                            <div className="dashed-divider"></div>
+
+                            <div className="faq-item">
+                                <h5>I have a payment issue or refund query.</h5>
+                                <p>If your money was deducted but the order failed, refunds are automatically processed within 3-5 business days.</p>
+                            </div>
+                            <div className="dashed-divider"></div>
+
+                            <div className="faq-item">
+                                <h5>Item missing from my order.</h5>
+                                <p>Please use the Live Chat option above to report missing items, and we will arrange a quick refund or replacement.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
             default: return <div className="dashboard-tab-panel-view modern-card-panel"><h2>Welcome Back!</h2></div>;
         }
     };
@@ -429,7 +487,6 @@ const Profile = () => {
                 {renderContent()}
             </div>
 
-            {/* --- TRACKING MODAL POPUP --- */}
             {showTrackModal && selectedOrder && (
                 <div className="tracking-modal-overlay" onClick={() => setShowTrackModal(false)}>
                     <div className="tracking-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -486,6 +543,53 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+            )}
+            {showAddressModal && (
+                <div className="modal-overlay" onClick={() => setShowAddressModal(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <h2>Add New Address</h2>
+                        <input name="firstName" placeholder="First Name" onChange={handleAddressChange} />
+                        <input name="lastName" placeholder="Last Name" onChange={handleAddressChange} />
+                        <input name="email" placeholder="Email" style={{ gridColumn: 'span 2' }} onChange={handleAddressChange} />
+                        <input name="street" placeholder="Street Address" style={{ gridColumn: 'span 2' }} onChange={handleAddressChange} />
+                        <input name="city" placeholder="City" onChange={handleAddressChange} />
+                        <input name="state" placeholder="State" onChange={handleAddressChange} />
+                        <input name="zipcode" placeholder="Zip Code" onChange={handleAddressChange} />
+                        <input name="country" placeholder="Country" onChange={handleAddressChange} />
+                        <input name="phone" placeholder="Phone Number" style={{ gridColumn: 'span 2' }} onChange={handleAddressChange} />
+
+                        <div className='adress-btn'>
+                        <button className="save-btn" onClick={() => {
+                        if (saveAddress) {
+                            saveAddress({
+                                ...newAddr,
+                                line1: newAddr.street,
+                                cityState: `${newAddr.city}, ${newAddr.state} - ${newAddr.zipcode}`,
+                                name: `${newAddr.firstName} ${newAddr.lastName}`,
+                                type: "Home",
+                                icon: "🏠"
+                            });
+                        }
+                        setShowAddressModal(false);
+                    }}>Save Address</button>
+
+                    <button className="save-btn" onClick={() => {
+                        if (saveAddress) {
+                            saveAddress({
+                                ...newAddr,
+                                line1: newAddr.street,
+                                cityState: `${newAddr.city}, ${newAddr.state} - ${newAddr.zipcode}`,
+                                name: `${newAddr.firstName} ${newAddr.lastName}`,
+                                type: "Home",
+                                icon: "🏠"
+                            });
+                        }
+                        setShowAddressModal(false);
+                    }}>Save Address</button>
+                    </div>
+                    </div>
+                    
                 </div>
             )}
         </div>

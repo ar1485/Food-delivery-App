@@ -28,34 +28,36 @@ const List = ({url}) => {
     }
   }
 
-
   useEffect(() => {
     fetchList();
   }, [])
 
-
   return (
-    <div className='list add flex-col'>
-      <p>All Foods List</p>
-      <div className="list-table">
-        <div className="list-table-format title">
-          <b>Image</b>
-          <b>Name</b>
-          <b>Category</b>
-          <b>Price</b>
-          <b>Action</b>
+    <div className='list-container'>
+      <div className="list-content-card">
+        <h2>All Foods Menu</h2>
+        <div className="list-table">
+          <div className="list-table-header">
+            <span>Image</span>
+            <span>Name</span>
+            <span>Category</span>
+            <span>Price</span>
+            <span>Action</span>
+          </div>
+          <div className="list-table-body">
+            {list.map((item, index) => {
+              return (
+                <div key={index} className="list-table-row">
+                  <img src={`${url}/images/` + item.image} alt={item.name} />
+                  <span className="item-name">{item.name}</span>
+                  <span className="item-category">{item.category}</span>
+                  <span className="item-price">${item.price}</span>
+                  <button onClick={() => removeFood(item._id)} className='delete-btn'>Delete</button>
+                </div>
+              )
+            })}
+          </div>
         </div>
-        {list.map((item, index) => {
-          return (
-            <div key={index} className="list-table-format">
-              <img src={`${url}/images/` + item.image} alt="" />
-              <p>{item.name}</p>
-              <p>{item.category}</p>
-              <p>${item.price}</p>
-              <p onClick={() => removeFood(item._id)} className='cursor'>X</p>
-            </div>
-          )
-        })}
       </div>
     </div>
   )

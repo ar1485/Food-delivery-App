@@ -1,0 +1,73 @@
+.app-download-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    margin-top: 50px;
+}
+
+.app-download-card {
+    background: linear-gradient(145deg, #ffffff, #f5f5f7);
+    width: 100%;
+    max-width: 900px;
+    border-radius: 30px;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+    border: 1px solid #f0f0f0;
+}
+
+.app-download-card h2 {
+    font-size: 38px;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+}
+
+.app-download-card p {
+    font-size: 16px;
+    color: #515154;
+    max-width: 500px;
+    margin: 0 auto 35px auto;
+    line-height: 1.6;
+}
+
+.app-download-platforms {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.store-btn {
+    width: 160px;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    border-radius: 8px;
+}
+
+.store-btn:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+    .app-download-card {
+        padding: 40px 20px;
+        border-radius: 20px;
+    }
+    
+    .app-download-card h2 {
+        font-size: 28px;
+    }
+    
+    .app-download-card p {
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+
+    .store-btn {
+        width: 140px;
+    }
+}

@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { StoreContext } from '../../Context/StoreContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -62,21 +62,28 @@ const PlaceOrder = () => {
 
         try {
             let response = await axios.post(`${url}/api/order/place`, orderData, { headers: { token } });
+            
             if (response.data.success) {
                 setCartItems({});
                 if (saveAddress) saveAddress(newSavedAddress);
                 
-                if (response.data.isCOD || paymentMethod === 'COD') {
+                if (paymentMethod === 'COD') {
                     alert("🎉 Order Placed!");
                     navigate('/profile');
                 } else {
-                    window.location.replace(response.data.session_url);
+                    const { session_url } = response.data;
+                    if (session_url && session_url.startsWith('http')) {
+                        window.location.replace(session_url);
+                    } else {
+                        alert("Error: Invalid Payment URL received.");
+                    }
                 }
             } else {
-                alert(response.data.message);
+                alert(response.data.message || "Order failed.");
             }
         } catch (error) {
-            alert("Error placing order!");
+            console.error(error);
+            alert("Error placing order! Check your server connection.");
         }
     };
 
@@ -133,11 +140,11 @@ const PlaceOrder = () => {
                     <div className="payment-method-selection">
                         <h3>Select Payment Method</h3>
                         <div className="payment-option" onClick={() => setPaymentMethod('Online')}>
-                            <input type="radio" name="payment" checked={paymentMethod === 'Online'} onChange={() => setPaymentMethod('Online')} />
+                            <input type="radio" name="payment" checked={paymentMethod === 'Online'} readOnly />
                             <label>💳 Online Payment</label>
                         </div>
                         <div className="payment-option" onClick={() => setPaymentMethod('COD')}>
-                            <input type="radio" name="payment" checked={paymentMethod === 'COD'} onChange={() => setPaymentMethod('COD')} />
+                            <input type="radio" name="payment" checked={paymentMethod === 'COD'} readOnly />
                             <label>💵 Cash on Delivery (COD)</label>
                         </div>
                     </div>
