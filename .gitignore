@@ -1,0 +1,11 @@
+# Ignore environment variables in backend
+backend/.env
+
+# Ignore dependency folders to keep repo lightweight
+backend/node_modules/
+frontend/node_modules/
+node_modules/
+
+# Ignore build artifacts (optional but recommended)
+dist/
+build/
